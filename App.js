@@ -1,20 +1,53 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import AddContact from './component/AddContact';
+import ContactListScreen from './component/ContactListScreen';
+import UpdateScreen from './component/UpdateScreen';
+import FavouriteScreen from './component/FavouriteScreen';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const OtherScreensStack = () => (
+ <Stack.Navigator 
+  initialRouteName="ContactListScreen">
+    <Stack.Screen
+      name="ContactListScreen"
+      component={ContactListScreen}
+      options={{
+         headerMode: 'none',
+      }}
+    />
+    <Stack.Screen name="AddContactScreen" component={AddContact} />
+    <Stack.Screen name="UpdateScreen" component={UpdateScreen} />
+ </Stack.Navigator>
+);
+
+const App = () => {
+ return (
+    <NavigationContainer>
+      <Tab.Navigator>
+        <Tab.Screen
+          name="ContactListScreen"
+          component={OtherScreensStack}
+          options={{
+            title: '', // Hide title
+            tabBarLabel: 'Contacts', 
+          }}
+        />
+        <Tab.Screen
+          name="FavouriteScreen"
+          component={FavouriteScreen}
+          options={{
+            title: '', // Hide title
+            tabBarLabel: 'Favorites', 
+          }}
+        />
+      </Tab.Navigator>
+    </NavigationContainer>
+ );
+};
+
+export default App;
